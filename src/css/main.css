@@ -1,0 +1,375 @@
+/* main interface */
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: #e2e9f3;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+body, html {
+    height: 100%;
+}
+
+/* main panel */
+.main-panel {
+    min-height: 250px;
+    height: 450px;
+    -webkit-box-flex: 1.5;
+    -ms-flex-positive: 1.5;
+    flex-grow: 1.5;
+}
+
+/* vis panel */
+.pane.vis-pane {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    margin-top: 1px;
+}
+
+.pane {
+    padding: 5px;
+    position: relative;
+}
+
+/* feed view on the right, background color white*/
+.pane.feed-pane {
+    width: 600px;
+    background-color: rgba(255,255,255,.6);
+    /*margin: 10px;*/
+    flex-shrink: 0;
+}
+
+.feed-summary {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* button for filters */
+
+.button-filter {
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 14;
+  -moz-border-radius: 14;
+  border-radius: 6px;
+  font-family: Arial;
+  /*color: #ffffff;*/
+  padding: 2px 4px 2px 4px;
+  text-decoration: none;
+}
+
+#button-filter:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+
+.vis-show-all {
+    display: inline-block;
+}
+
+/* div */
+.full-height {
+    height: 100%;
+}
+.full-width {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: initial;
+}
+.grow-1 {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+.hflex, .vflex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-direction: normal;
+    position: relative;
+}
+.vflex {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.hflex {
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.flex-root {
+    overflow: auto;
+}
+.no-shrink {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.top-bar {
+    height:50px;
+    background-color: #c8e6c9;
+}
+
+.no-top-margin {
+    margin-top: 0!important;
+}
+.no-right-margin {
+    margin-right: 0!important;
+}
+.top-card {
+    /*background-color: #fcfdfe;*/
+    background-color: #f6fff6;
+}
+.card {
+    margin: 3px 3px 0 0;
+    padding: 8px;
+    background: #fff;
+    border-style: none;
+}
+/* top central panel */
+.panel {
+    padding: 0;
+    position: relative;
+}
+/* top panel controls offset */
+.controls {
+    margin-left: 33px;
+    margin-top: 7px;
+}
+
+/* top right icon */
+.absolute-top-right {
+    position: absolute;
+    top: 3px;
+    right: 0;
+}
+
+.top-card a {
+    color: #38425d;
+}
+
+.hcil-logo {
+    background: url(../image/hcil_logo.jpeg) center no-repeat;
+    display: block;
+    background-size: 70px 60px;
+    width: 70px;
+    height: 60px;
+}
+a {
+    background-color: transparent;
+    color: #38425d;
+    text-decoration: none;
+    line-height: inherit;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    text-decoration: underline;
+    cursor: auto;
+}
+
+
+/* title */
+
+#title-label {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 130px;
+    padding: 8px;
+    overflow: hidden;
+    border: none;
+    font: normal 20px/1 Impact, Charcoal, sans-serif;
+    color: rgba(79, 79, 79, 1);
+    text-align: center;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    background: rgba(229, 229, 229, 1);
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Left data panel */
+.panel.data-pane {
+
+    width: 200px;
+}
+.panel.data-pane, .pane.encoding-pane {
+    width: 235px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.panel.data-pane {
+    width: 250px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+.noselect, .shelf .shelf-label, h1, h2, h3, h4 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.data-card {
+    background-color: #38425d;
+}
+
+.data-card .sidebar-header {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.abs-100 {
+    left: 0;
+    right: 0;
+}
+.abs-100, .abs-h100 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.data-card #footer a, .data-card .current-dataset, .data-card h2, .data-card h3 {
+    color: #fff;
+}
+h2 {
+    line-height: 20px;
+    font-size: 16px;
+    margin: 0 0 10px;
+}
+
+.noselect, .shelf .shelf-label, h1, h2, h3, h4 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.data-card button {
+    margin-top: -3px;
+}
+.right {
+    float: right;
+}
+button, html input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+button, select {
+    text-transform: none;
+}
+button {
+    overflow: visible;
+}
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+/* footer of left dataset panel */
+#footer {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+}
+
+/* overlay for import data */
+/* The Overlay (background) */
+.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+    height: 100%;
+    width: 0;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgba(163,163,163,0.5); 
+    overflow-x: hidden; /* Disable horizontal scroll */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+    position: relative;
+    top: 25%; /* 25% from the top */
+    width: 100%; /* 100% width */
+    text-align: center; /* Centered text/links */
+    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+.overlay-header {
+    font-weight: 700;
+    font-size: 1.3em;
+    margin: 5px 5px 0px 5px;
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block; /* Display block instead of inline */
+    transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}

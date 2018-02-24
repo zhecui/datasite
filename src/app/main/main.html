@@ -1,0 +1,228 @@
+<div ng-controller="MainCtrl" class="flex-root vflex full-width full-height">
+    <div class="full-width no-shrink top-bar">
+        <div class="card top-card no-right-margin no-top-margin">
+            <div class="hflex">
+                <div id="title-label">DataSite</div>
+                <div class="pane open-sans-font">
+                    <div class="controls">
+                        <!--<a ng-show="Bookmarks.isSupported" class="command"-->
+                        <!--ng-click="showModal('bookmark-list')">-->
+                        <!--<i class="fa fa-bookmark"></i> Bookmarks-->
+                        <!--({{Bookmarks.list.length}})-->
+                        <!--</a>-->
+                        <!--<a class="command" ng-click="toggleDataPanel()">Data-->
+                            <!--Panel</a>-->
+                        <!--<a class="command" ng-click="toggleEncodingPanel()">Encoding-->
+                            <!--Panel</a>-->
+                        <a class="command"
+                           ng-click="toggleDataPanel()">Manual Specification
+                            Panel</a>
+                        <a class="command" ng-click="chron.undo()"
+                           ng-class="{disabled: !canUndo}"><i
+                                class="fa fa-undo"></i> Undo</a>
+                        <a class="command" ng-click="chron.redo()"
+                           ng-class="{disabled: !canRedo}"><i
+                                class="fa fa-repeat"></i> Redo</a>
+
+                    </div>
+
+                </div>
+                <!--<div class="absolute-top-right">-->
+                    <!--<a href="http://hcil.umd.edu/" target="_blank"-->
+                       <!--class="hcil-logo"></a>-->
+                <!--</div>-->
+                <a class="feed-show-hide toggle-hide-explore"
+           ng-click="toggleHideExplore()">
+                <span ng-show="hideExplore">
+                  Show
+                  <i class="fa fa-toggle-up"></i>
+                </span>
+            <span ng-show="!hideExplore">
+                  Hide
+                  <i class="fa fa-toggle-down"></i>
+                </span>
+        </a>
+            </div>
+        </div>
+        <alert-messages></alert-messages>
+    </div>
+    <div class="hflex full-width main-panel grow-1 open-sans-font">
+        <!-- <div class="popup pane"> -->
+        <!-- <div class="container" ng-show="showDataPanel"> -->
+        <div class="pane data-pane noselect" ng-show="showDataPanel">
+            <div class="card no-top-margin data-card abs-100">
+                <div class="sidebar-header" ng-if="!embedded">
+                    <h2>Data</h2>
+                    <!-- <button id="select-dataset" class="right small-button select-dataset" onclick="importData()">Import
+                        </button> -->
+                    <dataset-selector class="right"></dataset-selector>
+                </div>
+                <div class="current-dataset"
+                     title="{{Dataset.currentDataset.name}}">
+                    <i class="fa fa-database"></i>
+                    <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
+                </div>
+                <schema-list field-defs="Dataset.schema.fieldSchemas"
+                             order-by="Dataset.fieldOrder" show-count="true"
+                             show-add="true"></schema-list>
+            </div>
+        </div>
+        <div class="pane encoding-pane" ng-show="showDataPanel"
+             ng-style="{'left': showDataPanel?'200px':'0'}">
+            <shelves spec="Spec.spec" support-auto-mark="true"
+                     filter-manager="FilterManager"></shelves>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+        <div id="plot_panel" class="pane vis-pane"
+        ng-style="{'left': showDataPanel?'435px':'0'}">
+            <vl-plot-group
+                    class="card abs-100 no-top-margin no-right-margin full-vl-plot-group"
+                    ng-show="!Spec.isEmptyPlot" chart="Spec.chart"
+                    show-bookmark="true" show-axis-prop="true"
+                    show-mark-type="true" show-sort="true" show-transpose="true"
+                    toggle-shelf="true" config-set="large" show-label="true"
+                    tooltip="true" always-scrollable="true"
+                    render-chart="true"></vl-plot-group>
+            <!-- <div class="abs-100 empty-vis card no-top-margin" ng-show="Spec.isEmptyPlot">
+                    No specified visualization yet. Start exploring by dragging a field to encoding pane on the left.
+                </div> -->
+        </div>
+
+        <div class="pane feed-pane scroll-y"
+             ng-style="{'left': showDataPanel?'435px':'0'}"
+             ng-class="{collapse: hideExplore, 'scroll-y': !hideExplore || !Spec.isSpecific, 'no-scroll-y': hideExplore && Spec.isSpecific}"
+             ng-if="Spec.isSpecific && !hideExplore">
+            <div class="alternatives-header">
+                <!--<div class="right alternatives-jump">-->
+                <!--<a ng-if="!hideExplore && Spec.alternatives.length > 1"-->
+                <!--ng-click="setAlternativeType(null)"-->
+                <!--ng-class="{active: alternativeType===null}">-->
+                <!--All-->
+                <!--</a>-->
+                <!-- <a ng-repeat="alternative in Spec.alternatives"
+                  ng-if="alternative.charts.length"
+                  ng-click="$parent.setAlternativeType(alternative.type);"
+                  md-parent-scope="this"
+                  ng-class="{active: $parent.alternativeType === alternative.type}">
+                  {{alternative.title}}
+                </a> -->
+                <!-- <a ng-repeat="component in Feed.types"
+                  ng-if=true
+                  ng-click="$parent.setAlternativeType(component);"
+                  md-parent-scope="this"
+                  ng-class="{active: $parent.alternativeType === component}">
+                  {{component}}
+                </a> -->
+                <!--<a ng-click="releaseLimit()">-->
+                <!--<span class="vis-show-all"-->
+                <!--ng-show="Feed.components[0].limit < Feed.components.length">-->
+                <!--Show All-->
+                <!--</span>-->
+                <!--<span class="vis-show-all"-->
+                <!--ng-show="!(Feed.components[0].limit < Feed.components.length)">-->
+                <!--Fold-->
+                <!--</span>-->
+                <!--</a>-->
+
+                <!--</div>-->
+                <h2>Feed Views
+                    <i class="fa fa-search searchIcon"></i>
+                    <input placeholder="Search attributes, etc."
+                           ng-model="query">
+                    <!-- <span class="fa fa-times-circle clearSearchText" mode="and"></span> -->
+                    </input>
+                    <a class="right"
+                       ng-click="$parent.setAlternativeType(null, true);"><i
+                            class="fa fa-eraser"></i> Clear Filter</a>
+                </h2>
+                <h3>Select filter!
+                    <select id="selected" ng-model="component"
+                            ng-change="$parent.setAlternativeType(component);">
+                        <option ng-repeat="component in Feed.types"
+                                ng-click="$parent.setAlternativeType(component);"
+                                md-parent-scope="this"
+                                ng-class="{active: $parent.alternativeType === component}"
+                                class="feed-summary button-filter">
+                            {{component}}
+                        </option>
+                    </select>
+                </h3>
+            </div>
+            <div class="alternatives-content" ng-if="!hideExplore">
+                <div class="flex-grow-1 scroll-y feed-group-container"
+                     ng-if="Bookmarks.list.length > 0">
+                    <h4>Your Posts</h4>
+                    <div ng-repeat="bookmark in Bookmarks.list | orderObjectBy : 'timeAdded' : false"
+                         ng-if="Bookmarks.list.length > 0"
+                         class="vl-plot-group-list-container"
+                         sv-root sv-part="Bookmarks.list"
+                         sv-on-sort="Bookmarks.reorder()">
+                    <h3 ng-click="showVis($index)">No. {{$index + 1}}</h3>
+                        <vl-plot-group
+                                ng-show="showChart[$index]"
+                                class="wrapped-vl-plot-group card"
+
+                                list-title="'Bookmark'"
+
+                                chart="bookmark.chart"
+                                field-set="bookmark.chart.fieldSet"
+
+                                show-filter-info="true"
+
+                                show-bookmark="true"
+                                show-debug="consts.debug"
+                                show-expand="false"
+
+                                always-selected="true"
+                                highlighted="highlighted"
+
+                                overflow="true"
+                                tooltip="true"
+
+                                priority="consts.priority.bookmark"
+
+                                show-select="true"
+                                render-chart="true">
+                        </vl-plot-group>
+                    </div>
+                </div>
+                <feed-group
+                        ng-repeat="type in Feed.types | orderBy:'toString()' "
+                        ng-if="(!$parent.alternativeType ||
+              ($parent.alternativeType === type))"
+                        type="type"
+                        components-by-type="Feed.components[type]"
+                        limit-by-type="Feed.limitByType"
+                        type-count="Feed.typeCount"
+                        filter="query">
+                </feed-group>
+            </div>
+        </div>
+        <!-- <a ng-click="increaseLimit()">
+          <div class="vis-list-more" ng-show="Feed.components[0].limit < Feed.components.length">
+            Load more...
+          </div>
+        </a> -->
+    </div>
+</div>
+<!--<bookmark-list highlighted="Fields.highlighted"></bookmark-list>-->
+<dataset-modal style="z-index:20"></dataset-modal>
+</div>
+<div class="hflex full-width dev-panel" ng-if="showDevPanel">
+    <div class="pane" ng-show="consts.logToWebSql">
+        <div class="card">
+        </div>
+    </div>
+    <div class="pane config-pane">
+        <div class="card scroll-y  abs-100">
+            <configuration-editor></configuration-editor>
+        </div>
+    </div>
+    <div class="pane vl-pane">
+        <vl-spec-editor></vl-spec-editor>
+    </div>
+    <div class="pane vg-pane">
+        <vg-spec-editor></vg-spec-editor>
+    </div>
+</div>

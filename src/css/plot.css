@@ -1,0 +1,39 @@
+.axis {
+    fill: none;
+    stroke: #AAA;
+    stroke-width: 1.5px;
+}
+text {
+    stroke: none;
+    fill: #666666;
+    font-size: 1.2em;
+    font-family:"Helvetica Neue"
+}
+.label {
+    fill: #414241;
+}
+.node {
+    fill:#666666;
+    cursor:pointer;
+}
+.dot {
+    /*opacity: .7;*/
+    cursor: pointer;
+}
+
+/* This is for table css */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}

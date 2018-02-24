@@ -1,0 +1,217 @@
+@import "../assets/normalize.scss";
+
+// injector
+// endinjector
+
+$fa-font-path: "../../bower_components/fontawesome/fonts";
+@import "../../bower_components/fontawesome/scss/font-awesome.scss";
+
+@import "../../bower_components/angular-tooltips/dist/angular-tooltips.css";
+
+$iron: #ccc;
+
+#logo {
+  background: url("../assets/images/logo.png") center no-repeat;
+  background-size: contain;
+  display: block;
+  width: 129px;
+  height: 33px;
+  margin-right: 47px; /* This margin further pushes the menu to the right */
+}
+
+.type-select {
+  width: 60px;
+}
+
+.vgspec, .vlspec {
+  min-height: 100px;
+}
+
+#dataset-select {
+  width: 90px;
+}
+
+null-filter-directive {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/** panes **/
+
+.main-panel {
+}
+
+.pane.encoding-pane {
+  width: 235px;
+  flex-shrink: 0;
+  position: absolute;
+  z-index: 9;
+  height: 100%;
+  .card {
+    // background-color: #E2E9F3;
+    background-color: rgba(200, 230, 201, 0.6);
+    //background-color: rgba(246, 255, 246, 0.8);
+    border-style: groove;
+    box-shadow: 5px 5px 5px #888888;
+  }
+  h2, h3 {
+    color: #38425D;
+  }
+}
+
+.pane {
+.controls {
+  padding: 2px;
+}
+}
+
+.pane.data-pane {
+  width: 200px;
+  flex-shrink: 0;
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+}
+
+.popup {
+  position: absolute;
+  z-index: 10;
+}
+
+.data-card {
+  background-color: rgba(36, 78, 44, 0.5);
+  //background-color: #244e2c;
+  //background-color: rgba(246, 255, 246, 0.8);
+  border-style: groove;
+  box-shadow: 5px 5px 5px #888888;
+  h2 {
+    color: #252525;
+  }
+  .current-dataset {
+    color: #000;
+  }
+}
+
+.pane.encoding-pane, .pane.vis-pane, .pane.feed-pane {
+  h2, h3 {
+    color: #38425D;
+  }
+}
+
+.pane.vis-pane{
+  flex-grow: 1;
+  margin-top: 1px;
+  .card {
+    background-color: #f6fff6;
+    }
+  .empty-vis.card {
+    background: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.pane.feed-pane {
+  //margin: 10px;
+  //margin-top: 15px;
+  padding: 20px;
+  // background: rgba(255,255,255,0.4);
+  background-color: #e7f7e8;
+
+
+  &.collapse h2 {
+    margin-bottom: 0;
+  }
+
+  .alternatives-jump {
+    a {
+      margin-left: 8px;
+    }
+    a.active {
+      font-weight: bold;
+    }
+
+    a.toggle-hide-explore {
+      margin-left: 16px;
+    }
+  }
+}
+
+.vl-plot-group-list-container {
+    margin-bottom: 0px;
+    //border-bottom: #1c5a90;
+    border-style: ridge;
+}
+
+.vis-list-more {
+    line-height: 20px;
+    height: 0px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1em;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.feed.h3 {
+  margin: 0, 0, 3px;
+}
+
+.feed-group-container {
+    background-color: white;
+    padding: 5px;
+    margin-top: 10px;
+    box-shadow: 3px 3px 3px #949694;
+    max-height: 300px;
+}
+
+.feed-show-hide {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+  font-size: 18px;
+}
+
+.feed-group-show-hide {
+  float: right;
+}
+
+// dataset modal
+.modal {
+  z-index: 20;
+}
+
+.vis-pane-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.vis-list-header {
+  padding-top: 1px;
+}
+
+h3 {
+  margin-bottom: 1px;
+}
+
+.pane.config-pane {
+  flex-grow: 0.6;
+}
+
+.pane.vl-pane {
+  flex-grow: 1;
+}
+
+.pane.vg-pane {
+  flex-grow: 1.2;
+}
+
+.open-sans-font {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#vis {
+  @extend .persist-scroll;
+  overflow: scroll;
+}

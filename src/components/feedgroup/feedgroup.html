@@ -1,0 +1,38 @@
+<div ng-hide="filteredComponents.length == 0"
+     class="feed-group-container scroll-y">
+<h4 ng-show="componentsByType.length >= 1">{{type}}
+    <a class="feed-group-show-hide toggle-hide-explore"
+           ng-click="toggleHideExplore()">
+                <span ng-show="!hideExplore && componentsByType.length > limitByType[type]">
+                  Show All
+                  <i class="fa fa-toggle-up"></i>
+                </span>
+            <span
+                    ng-show="hideExplore && componentsByType.length <= limitByType[type]">
+                  Fold
+                  <i class="fa fa-toggle-down"></i>
+                </span>
+        </a>
+    </h4>
+<vl-plot-group-list
+  ng-repeat="component in filteredComponents = (componentsByType | filter: filter) | orderBy: 'value'
+    | limitTo: limitByType[type]"
+  ng-if="component.type === type"
+  id="alternatives-{{component.type}}"
+  list-title="component.title"
+  charts="component.charts"
+  enable-pills-preview="true"
+  priority="$index * 1000"
+  initial-limit="component.limit || null"
+  post-select-action="$parent.scrollToTop()"
+  show-query-select="true"
+  show-specify="component.type != 'Clustering' && component.type != 'Regression' "
+  query="component.query"
+>
+</vl-plot-group-list>
+<!-- <a ng-click="increaseLimit(type)">
+<div class="vis-list-more" ng-show="limitByType[type] < typeCount[type]">
+  Load more...
+</div>
+</a> -->
+</div>
