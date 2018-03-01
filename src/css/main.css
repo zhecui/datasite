@@ -11,7 +11,7 @@ body {
     overflow: hidden;
     margin: 0;
     padding: 0;
-    background-color: #e2e9f3;
+    /*background-color: #e2e9f3;*/
     font-size: 12px;
     line-height: 18px;
 }
@@ -45,7 +45,7 @@ body, html {
 /* feed view on the right, background color white*/
 .pane.feed-pane {
     width: 600px;
-    background-color: rgba(255,255,255,.6);
+    /*background-color: rgba(255,255,255,.6);*/
     /*margin: 10px;*/
     flex-shrink: 0;
 }
@@ -128,7 +128,7 @@ body, html {
 }
 .top-bar {
     height:50px;
-    background-color: #c8e6c9;
+    /*background-color: #c8e6c9;*/
 }
 
 .no-top-margin {
@@ -139,7 +139,7 @@ body, html {
 }
 .top-card {
     /*background-color: #fcfdfe;*/
-    background-color: #f6fff6;
+    /*background-color: #f6fff6;*/
 }
 .card {
     margin: 3px 3px 0 0;
@@ -238,10 +238,6 @@ a:-webkit-any-link {
     cursor: default;
 }
 
-.data-card {
-    background-color: #38425d;
-}
-
 .data-card .sidebar-header {
     padding-bottom: 5px;
     margin-bottom: 5px;
@@ -258,7 +254,7 @@ a:-webkit-any-link {
 }
 
 .data-card #footer a, .data-card .current-dataset, .data-card h2, .data-card h3 {
-    color: #fff;
+    color: #acacac;
 }
 h2 {
     line-height: 20px;

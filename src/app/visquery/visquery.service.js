@@ -71,7 +71,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var data = res.data;
                     results.mean.push(data.mean);
                     results.mean.push(data.variance);
@@ -114,7 +114,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var data = res.data;
                     results.mean = data;
                     Visquery.min.fieldName = data[0];
@@ -156,7 +156,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var correlation = res.data;
                     results.mean = correlation;
                     if (Visquery.correlation.fieldName_x === undefined) {
@@ -206,7 +206,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var clusteredResults = res.data;
                     var errorList = clusteredResults.centroids.map(function (res) {
                         return res.error;
@@ -266,7 +266,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var regressionResults = res.data;
                     results.mean = regressionResults;
                     getRegressionSpec(fieldName_x, fieldName_y, regressionResults,
@@ -316,7 +316,7 @@ angular.module('datasite')
                 params: params
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var data = res.data;
                     results.mean = data.max_category;
                     Visquery.min.fieldName = data.min_category;
@@ -357,7 +357,7 @@ angular.module('datasite')
                 params: params
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var data = res.data;
                     results.mean = data.min_category;
                     Visquery.min.fieldName = data.min_category;
@@ -397,7 +397,7 @@ angular.module('datasite')
                 params: params,
             }).then(
                 function success(res) {
-                    console.log(res);
+                    // console.log(res);
                     var data = res.data;
                     results.mean = data;
                     var delay_time = Math.floor(Math.random() * 10 + 5);

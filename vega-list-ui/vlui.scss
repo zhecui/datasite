@@ -1009,30 +1009,58 @@ $any-hover-color: #666;
 
 
 
-// ====== components/functionselect/functionselect.scss ====== 
-label.func-label.field-func {
-  font-weight: normal;
-  width: 130px; // set width to roughly half of .shelf-functions to create double columns
+// ====== components/modal/modal.scss ====== 
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+
+  .modal-header {
+    background-color: #F1F4F9;
+    flex-shrink: 0;
+    margin: 3px 3px 0 0;
+    padding: 8px;
+
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  .modal-wrapper {
+    margin: 50px auto;
+    width: calc( 100% - 100px );
+    max-height: calc( 100% - 100px );
+    overflow: hidden;
+    padding: 6px;
+    background-color: $background-color;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column; //vertical
+    align-items: stretch;
+  }
+
+  .modal-wrapper .scroll-y::-webkit-scrollbar-thumb{
+    border: 2px solid $background-color;
+  }
+
+  .modal-main {
+    background-color: white;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 58px;
+    right: 58px;
+  }
 }
 
-label.func-label.field-func.single-column {
-  width: 260px; // set width slightly smaller than .shelf-functions to create single column
-}
-
-.expand-collapse {
-  text-align: center;
-  margin-bottom: -5px;
-}
-
-.function-select.wildcard {
-  padding: 5px;
-  background-color: #d8eaec;
-  border-radius: 3px;
-
-  // HACK to take over the outer background
-  margin: -5px;
-  padding: 5px;
-}
 // ====== components/filter/categoricalfilter.scss ====== 
 .filter-box.categorical-filter-box {
   padding: 0 8px 0 8px;
@@ -1188,58 +1216,66 @@ quantitative-filter {
   }
 }
 
-// ====== components/modal/modal.scss ====== 
-.modal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1;
-
-  .modal-header {
-    background-color: #F1F4F9;
-    flex-shrink: 0;
-    margin: 3px 3px 0 0;
-    padding: 8px;
-
-    h2 {
-      margin-bottom: 0;
-    }
-  }
-
-  .modal-wrapper {
-    margin: 50px auto;
-    width: calc( 100% - 100px );
-    max-height: calc( 100% - 100px );
-    overflow: hidden;
-    padding: 6px;
-    background-color: $background-color;
-    border: 1px solid #aaa;
-    border-radius: 3px;
-    box-sizing: border-box;
-
-    display: flex;
-    flex-direction: column; //vertical
-    align-items: stretch;
-  }
-
-  .modal-wrapper .scroll-y::-webkit-scrollbar-thumb{
-    border: 2px solid $background-color;
-  }
-
-  .modal-main {
-    background-color: white;
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 58px;
-    right: 58px;
-  }
+// ====== components/functionselect/functionselect.scss ====== 
+label.func-label.field-func {
+  font-weight: normal;
+  width: 130px; // set width to roughly half of .shelf-functions to create double columns
 }
 
+label.func-label.field-func.single-column {
+  width: 260px; // set width slightly smaller than .shelf-functions to create single column
+}
+
+.expand-collapse {
+  text-align: center;
+  margin-bottom: -5px;
+}
+
+.function-select.wildcard {
+  padding: 5px;
+  background-color: #d8eaec;
+  border-radius: 3px;
+
+  // HACK to take over the outer background
+  margin: -5px;
+  padding: 5px;
+}
+// ====== components/shelves/shelves.scss ====== 
+.shelf-pane {
+  margin-bottom: 12px;
+}
+
+.shelf-encoding-pane {
+  margin-bottom: 18px;
+}
+
+.preview .shelf-encoding-pane,
+.preview .shelf-any-pane {
+  margin-bottom: 0;
+}
+
+.shelf-filter-pane {
+  flex-grow: 1;
+  position: relative;
+}
+
+.card.shelves.preview {
+  bottom: initial;
+  padding-bottom: 0;
+}
+
+select.markselect {
+  // customizing css for select box http://cssdeck.com/labs/styling-select-box-with-css3
+  background: #f8f8f8;
+  color:#333;
+  border: #888888 1px solid;
+  display: inline-block;
+  &.auto {
+    background: #e3f9fd;
+    color: #5798a5;
+    border: #9bc4cc 1px solid;
+  }
+}
 // ====== components/propertyeditor/propertyeditor.scss ====== 
 
 // ====== components/schemalist/schemalist.scss ====== 
@@ -1289,42 +1325,6 @@ label {
 
 .remove-action {
   color: #b30a0a;
-}
-// ====== components/shelves/shelves.scss ====== 
-.shelf-pane {
-  margin-bottom: 12px;
-}
-
-.shelf-encoding-pane {
-  margin-bottom: 18px;
-}
-
-.preview .shelf-encoding-pane,
-.preview .shelf-any-pane {
-  margin-bottom: 0;
-}
-
-.shelf-filter-pane {
-  flex-grow: 1;
-  position: relative;
-}
-
-.card.shelves.preview {
-  bottom: initial;
-  padding-bottom: 0;
-}
-
-select.markselect {
-  // customizing css for select box http://cssdeck.com/labs/styling-select-box-with-css3
-  background: #f8f8f8;
-  color:#333;
-  border: #888888 1px solid;
-  display: inline-block;
-  &.auto {
-    background: #e3f9fd;
-    color: #5798a5;
-    border: #9bc4cc 1px solid;
-  }
 }
 // ====== components/tabs/tab.scss ====== 
 .tab-container {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('datasite')
-  .controller('MainCtrl', function($scope, $document, Spec, Feed, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals, FilterManager) {
+  .controller('MainCtrl', function($scope, $document, Spec, Feed, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals, FilterManager, Pills) {
     $scope.Spec = Spec;
     // modified by Zhe
     $scope.Feed = Feed;
@@ -13,6 +13,8 @@ angular.module('datasite')
     $scope.consts = consts;
     $scope.showDevPanel = false;
     $scope.embedded = !!consts.embeddedData;
+
+    $scope.Pills = Pills;
 
     $scope.hideExplore = false;
     $scope.showDataPanel = false;
@@ -97,6 +99,10 @@ angular.module('datasite')
       }
       // at this point we don't have the suggestion type available, thus reset
       $scope.setAlternativeType(null, false, true);
+    });
+
+    $scope.$watch('Pills', function(Pills) {
+        console.log(Pills);
     });
 
     // undo/redo support

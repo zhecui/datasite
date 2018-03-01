@@ -12,7 +12,8 @@ angular.module('datasite')
                 limitByType: '=',
                 typeCount: '=',
                 type: "=",
-                filter: "="
+                filter: "=",
+                selectedEncodings: "="
             },
             link: function postLink(scope /*, element, attrs*/) {
                 scope.hideExplore = false;
@@ -24,6 +25,13 @@ angular.module('datasite')
                         scope.limitByType[scope.type] = 3;
                     }
                 };
+
+                scope.$watchGroup(['selectedEncodings.x.field', 'selectedEncodings.y.field',
+                    'selectedEncodings.col.field'], function(fields) {
+                    console.log(fields);
+                    // Object.keys(scope.selectedEncodings)
+                    }
+                );
             }
         };
     });

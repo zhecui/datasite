@@ -49,7 +49,7 @@ null-filter-directive {
   height: 100%;
   .card {
     // background-color: #E2E9F3;
-    background-color: rgba(200, 230, 201, 0.6);
+    //background-color: rgba(200, 230, 201, 0.6);
     //background-color: rgba(246, 255, 246, 0.8);
     border-style: groove;
     box-shadow: 5px 5px 5px #888888;
@@ -79,7 +79,7 @@ null-filter-directive {
 }
 
 .data-card {
-  background-color: rgba(36, 78, 44, 0.5);
+  //background-color: rgba(36, 78, 44, 0.5);
   //background-color: #244e2c;
   //background-color: rgba(246, 255, 246, 0.8);
   border-style: groove;
@@ -101,9 +101,6 @@ null-filter-directive {
 .pane.vis-pane{
   flex-grow: 1;
   margin-top: 1px;
-  .card {
-    background-color: #f6fff6;
-    }
   .empty-vis.card {
     background: rgba(255, 255, 255, 0.6);
   }
@@ -114,7 +111,7 @@ null-filter-directive {
   //margin-top: 15px;
   padding: 20px;
   // background: rgba(255,255,255,0.4);
-  background-color: #e7f7e8;
+  //background-color: #e7f7e8;
 
 
   &.collapse h2 {
