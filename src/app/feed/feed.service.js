@@ -8,18 +8,21 @@ angular.module('datasite')
                 type: '',
                 title: '',
                 value: null,
+                attributes: [],
                 // specs: [],
                 limit: 3,
                 spec: null,
                 query: null,
                 charts: null,
                 chart: Chart.getChart(null),
+                order: 0
             };
         }
 
         var Feed = {
             typeCount: {},
             types: [],
+            typeOrder: [],
             components: {},
             limitByType: {},
         };
@@ -41,7 +44,7 @@ angular.module('datasite')
 
         Feed.loaded = function () {
             console.log(Dataset.schema._fieldSchemas);
-            Dataset.schema._fieldSchemas.forEach(function (attribute_x) {
+            Dataset.schema._fieldSchemas.forEach(function (attribute_x, index) {
                 // console.log(attribute_x);
                 if (attribute_x.type === 'quantitative') {
                     Visquery.getMeanandVariance(attribute_x.field).then(function (result) {
@@ -114,7 +117,9 @@ angular.module('datasite')
                     }, function (error) {
                         promiseError(error);
                     });
-                    Dataset.schema._fieldSchemas.forEach(function (attribute_y) {
+                    for (var i = index + 1; i < Dataset.schema._fieldSchemas.length; i++) {
+                        // Dataset.schema._fieldSchemas.forEach(function (attribute_y) {
+                        var attribute_y = Dataset.schema._fieldSchemas[i];
                         if (attribute_y.field != attribute_x.field &&
                             attribute_y.type === 'nominal') {
                             Visquery.getCombineFreqCount(attribute_x.field, attribute_y.field)
@@ -123,8 +128,8 @@ angular.module('datasite')
                                 }, function (error) {
                                     promiseError(error);
                                 });
-                        }
-                    });
+                            }
+                    }
                 }
             });
         };
@@ -158,8 +163,8 @@ angular.module('datasite')
                 // two attributes relationship scripts
                 sentence = "K-means with " + results.numOfClusters + " clusters between " +
                     attribute[0].split('_').join(' ') + " and " +
-                    attribute[1].split('_').join(' ') + " is" +
-                    " finished with average error " + Math.sqrt(results.error).toFixed(2) + ".";
+                    attribute[1].split('_').join(' ') + " has average error "
+                    + Math.sqrt(results.error).toFixed(2) + ".";
             } else if (algorithm === "Regression") {
                 // two attributes relationship scripts
                 sentence = "Linear Regression between " +
@@ -175,10 +180,16 @@ angular.module('datasite')
 
         Feed.update = function (specinfo) {
             var component = instantiate();
+            component.order = -1;
             component.type = specinfo.algorithm;
             component.value = getRankValue(specinfo);
             // 'value' property is used for ranking in the feed.
-
+            if(specinfo.attribute instanceof Array) {
+                component.attributes = component.attributes.concat(
+                    specinfo.attribute);
+            } else {
+                component.attributes.push(specinfo.attribute);
+            }
             component.title = scriptFormat(specinfo);
             var clusteredData = JSON.parse(JSON.stringify(specinfo.spec.data));
             if (specinfo.algorithm != 'Clustering' && specinfo.algorithm !=
@@ -217,17 +228,70 @@ angular.module('datasite')
 
             if (!Feed.types.includes(component.type)) {
                 Feed.types.push(component.type);
+                Feed.typeOrder.push({
+                    type: component.type,
+                    order: 0
+                });
                 Feed.components[component.type] = [];
                 Feed.limitByType[component.type] = 3;
             }
             Feed.components[component.type].unshift(component);
-        }
+        };
+
+        Feed.filter = function(encodings) {
+            var selectedEncodings = [];
+            Object.keys(encodings).forEach(function(curr) {
+                if(encodings[curr]!= undefined && encodings[curr].field != undefined) {
+                    selectedEncodings.push(encodings[curr].field);
+                }
+            });
+
+            var components = Feed.components;
+            if(selectedEncodings.length > 0) {
+                for (var type in components) {
+                    var currTypeOrder = 0;
+                    var componentsByType = components[type];
+                    for(var index = 0; index < componentsByType.length; index++ ) {
+                        componentsByType[index].attributes.forEach(function(attribute) {
+                            if(selectedEncodings.includes(attribute)) {
+                                Feed.components[type][index].order = 1;
+                                for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
+                                    if(Feed.typeOrder[ind].type == type) {
+                                        Feed.typeOrder[ind].order = 1;
+                                    }
+                                }
+                            } else {
+                                Feed.components[type][index].order = 0;
+                            }
+                        });
+                    }
+                }
+            } else {
+                for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
+                    // if(Feed.typeOrder[ind].type == type) {
+                    Feed.typeOrder[ind].order = 0;
+                    // }
+                }
+                for (var type in components) {
+                    for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
+                        if(Feed.typeOrder[ind].type == type) {
+                            Feed.typeOrder[ind].order = 0;
+                        }
+                    }
+                    var componentsByType = components[type];
+                    for(var index = 0; index < componentsByType.length; index++ ) {
+                        Feed.components[type][index].order = 0;
+                    }
+                }
+            }
+        };
 
         Feed.clear = function () {
             Feed.components = {};
             Feed.types = [];
+            Feed.typeOrder = [];
             Feed.typeCount = {};
-        }
+        };
 
         function executeQuery(alternative, isClustering, isRegression, clusteredData) {
             var spec = getQuery(alternative.spec, isClustering, isRegression, clusteredData);

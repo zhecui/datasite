@@ -451,6 +451,7 @@ angular.module('datasite')
           // For typically channels, remove all pill detail from the fieldDef, but keep the object
           updateChannelDef(Spec.spec.encoding, {}, channelId);
         }
+        Feed.filter(Spec.spec.encoding);
       },
       add: function(fieldDef) {
         var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
@@ -519,7 +520,7 @@ angular.module('datasite')
 
           Spec.spec.encoding = encoding;
         }
-
+        Feed.filter(Spec.spec.encoding);
       },
       select: function(spec) {
         var specQuery = getSpecQuery(spec);

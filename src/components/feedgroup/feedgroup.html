@@ -15,7 +15,7 @@
         </a>
     </h4>
 <vl-plot-group-list
-  ng-repeat="component in filteredComponents = (componentsByType | filter: filter) | orderBy: 'value'
+  ng-repeat="component in filteredComponents = (componentsByType | filter: filter) | orderBy: ['-order', 'value']
     | limitTo: limitByType[type]"
   ng-if="component.type === type"
   id="alternatives-{{component.type}}"

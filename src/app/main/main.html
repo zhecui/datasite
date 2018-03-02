@@ -138,13 +138,13 @@
                 </h2>
                 <h3>Select filter!
                     <select id="selected" ng-model="component"
-                            ng-change="$parent.setAlternativeType(component);">
-                        <option ng-repeat="component in Feed.types"
-                                ng-click="$parent.setAlternativeType(component);"
+                            ng-change="$parent.setAlternativeType(component.type);">
+                        <option ng-repeat="component in Feed.typeOrder"
+                                ng-click="$parent.setAlternativeType(component.type);"
                                 md-parent-scope="this"
-                                ng-class="{active: $parent.alternativeType === component}"
+                                ng-class="{active: $parent.alternativeType === component.type}"
                                 class="feed-summary button-filter">
-                            {{component}}
+                            {{component.type}}
                         </option>
                     </select>
                 </h3>
@@ -188,15 +188,14 @@
                     </div>
                 </div>
                 <feed-group
-                        ng-repeat="type in Feed.types | orderBy:'toString()' "
+                        ng-repeat="type in Feed.typeOrder | orderBy:'-order' "
                         ng-if="(!$parent.alternativeType ||
-              ($parent.alternativeType === type))"
-                        type="type"
-                        components-by-type="Feed.components[type]"
+              ($parent.alternativeType === type.type))"
+                        type="type.type"
+                        components-by-type="Feed.components[type.type]"
                         limit-by-type="Feed.limitByType"
                         type-count="Feed.typeCount"
-                        filter="query"
-                selected-encodings="Pills.pills">
+                        filter="query">
                 </feed-group>
             </div>
         </div>

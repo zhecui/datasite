@@ -101,10 +101,6 @@ angular.module('datasite')
       $scope.setAlternativeType(null, false, true);
     });
 
-    $scope.$watch('Pills', function(Pills) {
-        console.log(Pills);
-    });
-
     // undo/redo support
     $scope.canUndo = false;
     $scope.canRedo = false;
@@ -209,9 +205,4 @@ angular.module('datasite')
       //   list: $scope.listTitle
       // });
     };
-
-    // $scope.tests = [];
-    // $scope.loadMore = function() {
-    //   $scope.tests = $scope.Feed.components.slice(0, $scope.tests.length + 7);
-    // }
   });
