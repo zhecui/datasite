@@ -135,7 +135,7 @@ null-filter-directive {
 .vl-plot-group-list-container {
     margin-bottom: 0px;
     //border-bottom: #1c5a90;
-    border-style: ridge;
+    //border-style: ridge;
 }
 
 .vis-list-more {
@@ -159,8 +159,9 @@ h3 {
     background-color: white;
     padding: 5px;
     margin-top: 10px;
-    box-shadow: 3px 3px 3px #949694;
+    //box-shadow: 3px 3px 3px #949694;
     max-height: 300px;
+    border: darkgrey solid 0.5px;
 }
 
 .feed-show-hide {
@@ -186,6 +187,14 @@ h3 {
 
 .vis-list-header {
   padding-top: 1px;
+}
+
+.vis-list-header:hover {
+  border: solid #f1f1f1;
+}
+
+.vis-list-header h3 {
+  cursor: pointer;
 }
 
 h3 {
