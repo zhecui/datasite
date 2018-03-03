@@ -8,7 +8,14 @@
         var fieldName_y = params.fieldName_y;
         var Dataset = params.Dataset;
         linearRegression(fieldName_x, fieldName_y, Dataset, callback);
-    }
+    };
+    module.exports.polynomialRegression = function (params, callback) {
+        var fieldName_x = params.fieldName_x;
+        var fieldName_y = params.fieldName_y;
+        var Dataset = params.Dataset;
+        polynomialRegression(fieldName_x, fieldName_y, Dataset, callback);
+    };
+
     function linearRegression(fieldName_x, fieldName_y, dataset, callback) {
         var X = [];
         var Y = [];
@@ -46,5 +53,28 @@
             // };
             callback(results);
         });
+    }
+
+    function polynomialRegression(fieldName_x, fieldName_y, dataset, callback) {
+        var data = [];
+
+        dataset.data.forEach(function (value) {
+            var attrVal_x = value[fieldName_x];
+            var attrVal_y = value[fieldName_y];
+            if (attrVal_x != null) {
+                data.push([attrVal_x, attrVal_y]);
+            }
+
+        });
+        var regression = require('regression');
+        var polynomialReg = new regression.polynomial(data);
+        var results = {};
+        results[fieldName_x] = polynomialReg.points.map(function(elem) {
+            return elem[0];
+        });
+        results[fieldName_y] = polynomialReg.points.map(function(elem) {
+            return elem[1];
+        });
+        callback(results);
     }
 }());

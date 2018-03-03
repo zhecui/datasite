@@ -22,6 +22,9 @@ angular.module('datasite')
             getCombineFreqCount: getCombineFreqCount,
             getKMeans: getKMeans,
             getLinearRegression: getLinearRegression,
+            getPolynomialRegression: getPolynomialRegression,
+            // DBSCAN clustering
+            getDBSCAN: getDBSCAN,
             average: {},
             min: {},
             max: {},
@@ -29,6 +32,7 @@ angular.module('datasite')
             correlation: {},
             freqCombine: {},
             clustering: {},
+            dbscan: {},
             regression: {}
 
         };
@@ -241,7 +245,62 @@ angular.module('datasite')
             return deferred.promise;
         }
 
-        // K means clustering algorithm
+        // DBSCAN clustering algorithm
+        function getDBSCAN(fieldName_x, fieldName_y, numOfPoints) {
+            var deferred = $q.defer();
+            var results = {
+                algorithm: 'DBSCAN',
+                attribute: [fieldName_x, fieldName_y],
+                mean: 0,
+                spec: getSpec('clustering', fieldName_x, fieldName_y),
+            };
+
+            if (valueStored('dbscan', fieldName_x, fieldName_y)) {
+                results.mean = Visquery.variance.fieldName_x.fieldName_y;
+                deferred.resolve(results);
+                return deferred.promise;
+            }
+
+            var params = {
+                fieldName_x: fieldName_x,
+                fieldName_y: fieldName_y,
+                Dataset: Dataset,
+                numOfPoints: numOfPoints,
+            };
+            $http.post('dbscan', {
+                params: params,
+            }).then(
+                function success(res) {
+                    // console.log(res);
+                    var clusteredResults = res.data;
+
+                    results.mean = clusteredResults;
+                    getColorSpec(fieldName_x, fieldName_y, clusteredResults.clusters,
+                        function success(resultSpec) {
+                            results.spec = resultSpec;
+                            if (Visquery.dbscan.fieldName_x === undefined) {
+                                Visquery.dbscan.fieldName_x = {};
+                            }
+                            Visquery.dbscan.fieldName_x.fieldName_y = clusteredResults;
+                            if (Visquery.dbscan.fieldName_y === undefined) {
+                                Visquery.dbscan.fieldName_y = {};
+                            }
+                            Visquery.dbscan.fieldName_y.fieldName_x = clusteredResults;
+                            deferred.resolve(results);
+                            var delay_time = Math.floor(Math.random() * 20 + 50);
+                            setTimeout(function () {
+                                deferred.resolve(results);
+                            }, delay_time * 1000);
+                        });
+                },
+                function error(err) {
+                    console.log(err);
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        // linear regression algorithm
         function getLinearRegression(fieldName_x, fieldName_y) {
             var deferred = $q.defer();
             var results = {
@@ -263,6 +322,51 @@ angular.module('datasite')
                 Dataset: Dataset,
             };
             $http.post('regression', {
+                params: params,
+            }).then(
+                function success(res) {
+                    // console.log(res);
+                    var regressionResults = res.data;
+                    results.mean = regressionResults;
+                    getRegressionSpec(fieldName_x, fieldName_y, regressionResults,
+                        function success(resultSpec) {
+                            results.spec = resultSpec;
+                            if (Visquery.regression.fieldName_x === undefined) {
+                                Visquery.regression.fieldName_x = {};
+                            }
+                            Visquery.regression.fieldName_x.fieldName_y = regressionResults;
+                            if (Visquery.regression.fieldName_y === undefined) {
+                                Visquery.regression.fieldName_y = {};
+                            }
+                            var delay_time = Math.floor(Math.random() * 20 + 15);
+                            setTimeout(function () {
+                                deferred.resolve(results);
+                            }, delay_time * 1000);
+                        });
+                },
+                function error(err) {
+                    console.log(err);
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        // linear regression algorithm
+        function getPolynomialRegression(fieldName_x, fieldName_y) {
+            var deferred = $q.defer();
+            var results = {
+                algorithm: 'PolynomialRegression',
+                attribute: [fieldName_x, fieldName_y],
+                mean: 0,
+                spec: getSpec('regression', fieldName_x, fieldName_y),
+            };
+
+            var params = {
+                fieldName_x: fieldName_x,
+                fieldName_y: fieldName_y,
+                Dataset: Dataset,
+            };
+            $http.post('polynomialregression', {
                 params: params,
             }).then(
                 function success(res) {
@@ -493,7 +597,7 @@ angular.module('datasite')
                 // console.log(response);
                 var dataWithClusters = [];
                 response.data.forEach(function (value, index) {
-                    var current_value = value;
+                    var current_value = angular.copy(value);
                     current_value["clusters"] = clusters[index];
                     dataWithClusters.push(current_value);
                 });
@@ -530,7 +634,7 @@ angular.module('datasite')
             $http.get(Dataset.currentDataset.url).then(function onSuccess(response) {
                 var dataWithRegression = [];
                 response.data.forEach(function (value, index) {
-                    var current_value = value;
+                    var current_value = angular.copy(value);
                     current_value['regression'] = regressionResults[attribute2][index];
                     dataWithRegression.push(current_value);
                 });
@@ -569,31 +673,13 @@ angular.module('datasite')
                                     "field": "regression",
                                     "type": vl.type.Type.QUANTITATIVE
                                 },
-                                // "color": {
-                                //     "value": "red"
-                                // }
                             }
-                        // }
-
                     // ]
                 };
                 callback(spec);
             }, function onError(response) {
                 console.log(response);
             });
-            // var spec = {
-            //     data: null,
-            //     mark: "point",
-            //     transform: {
-            //         filterInvalid: undefined,
-            //     },
-            //     encoding: {
-            // 		"x": { "field": attribute1, "type": vl.type.Type.QUANTITATIVE },
-            //         "y": { "field": attribute2, "type": vl.type.Type.QUANTITATIVE },
-            // 	},
-            // };
-            // resultsSpec = spec;
-            // return spec;
         }
 
         return Visquery;

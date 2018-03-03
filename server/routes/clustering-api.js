@@ -5,7 +5,7 @@
 
 var express = require('express');
 var router = express.Router();
-var clustering = require("./../utils/clustering")
+var clustering = require("./../utils/clustering");
 
 router.post('/', function(req, res) {
   kMeans(req, res);

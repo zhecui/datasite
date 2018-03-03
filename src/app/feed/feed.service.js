@@ -84,9 +84,26 @@ angular.module('datasite')
                                 }, function (error) {
                                     promiseError(error);
                                 });
+
+                            // polynomial regression
+                            Visquery.getPolynomialRegression(attribute_x.field, attribute_y.field)
+                                .then(function (result) {
+                                    promiseSuccess(result);
+                                }, function (error) {
+                                    promiseError(error);
+                                });
                             // clustering using kmeans
                             for (var numberOfClusters = 3; numberOfClusters < 10; numberOfClusters += 2) {
                                 Visquery.getKMeans(attribute_x.field, attribute_y.field, numberOfClusters)
+                                    .then(function (result) {
+                                        promiseSuccess(result);
+                                    }, function (error) {
+                                        promiseError(error);
+                                    });
+                            }
+                            // clustering using dbscan
+                            for (var numberOfPoints = 5; numberOfPoints < 20; numberOfPoints += 4) {
+                                Visquery.getDBSCAN(attribute_x.field, attribute_y.field, numberOfPoints)
                                     .then(function (result) {
                                         promiseSuccess(result);
                                     }, function (error) {
@@ -165,9 +182,20 @@ angular.module('datasite')
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " has average error "
                     + Math.sqrt(results.error).toFixed(2) + ".";
+            } else if (algorithm === "DBSCAN") {
+                // two attributes relationship scripts
+                sentence = "DBSCAN with minPts=" + results.numOfClusters + " between " +
+                    attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ') + " is finished.";
             } else if (algorithm === "Regression") {
                 // two attributes relationship scripts
                 sentence = "Linear Regression between " +
+                    attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ') + " is" +
+                    " finished.";
+            } else if (algorithm === "PolynomialRegression") {
+                // two attributes relationship scripts
+                sentence = "Polynomial Regression between " +
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " is" +
                     " finished.";
@@ -193,17 +221,14 @@ angular.module('datasite')
             component.title = scriptFormat(specinfo);
             var clusteredData = JSON.parse(JSON.stringify(specinfo.spec.data));
             if (specinfo.algorithm != 'Clustering' && specinfo.algorithm !=
-            'Regression') {
+            'Regression' && specinfo.algorithm != 'PolynomialRegression' && specinfo.algorithm
+                != 'DBSCAN') {
                 var data = {
                     formatType: undefined,
                     url: Dataset.currentDataset.url,
                 };
                 specinfo.spec.data = data;
             }
-            // } else {
-            //     var oldDataset = Dataset;
-            //     Dataset.updateFromData(oldDataset, specinfo.spec.data);
-            // }
 
             component.spec = specinfo.spec;
             component.query = {
