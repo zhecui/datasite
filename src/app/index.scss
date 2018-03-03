@@ -217,6 +217,16 @@ h3 {
   font-family: 'Open Sans', sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 4px!important;
+    height: 4px!important;
+    background-color: #eee!important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d7d7d7!important;
+}
+
 #vis {
   @extend .persist-scroll;
   overflow: scroll;
