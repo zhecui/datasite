@@ -63,6 +63,7 @@
             });
         }
         results.clusters = assignedClusters;
+        results.minPts = numberOfPoints;
         callback(results);
     }
 

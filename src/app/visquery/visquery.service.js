@@ -249,7 +249,7 @@ angular.module('datasite')
         function getDBSCAN(fieldName_x, fieldName_y, numOfPoints) {
             var deferred = $q.defer();
             var results = {
-                algorithm: 'DBSCAN',
+                algorithm: 'DBSCAN Clustering',
                 attribute: [fieldName_x, fieldName_y],
                 mean: 0,
                 spec: getSpec('clustering', fieldName_x, fieldName_y),

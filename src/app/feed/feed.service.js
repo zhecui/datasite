@@ -102,7 +102,7 @@ angular.module('datasite')
                                     });
                             }
                             // clustering using dbscan
-                            for (var numberOfPoints = 5; numberOfPoints < 20; numberOfPoints += 4) {
+                            for (var numberOfPoints = 4; numberOfPoints <= 20; numberOfPoints += 8) {
                                 Visquery.getDBSCAN(attribute_x.field, attribute_y.field, numberOfPoints)
                                     .then(function (result) {
                                         promiseSuccess(result);
@@ -182,11 +182,11 @@ angular.module('datasite')
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " has average error "
                     + Math.sqrt(results.error).toFixed(2) + ".";
-            } else if (algorithm === "DBSCAN") {
+            } else if (algorithm === "DBSCAN Clustering") {
                 // two attributes relationship scripts
-                sentence = "DBSCAN with minPts=" + results.numOfClusters + " between " +
-                    attribute[0].split('_').join(' ') + " and " +
-                    attribute[1].split('_').join(' ') + " is finished.";
+                sentence = "DBSCAN between " + attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ') + " with minPts=" + results.minPts +
+                    " estimated " + results.numOfClusters + " clusters.";
             } else if (algorithm === "Regression") {
                 // two attributes relationship scripts
                 sentence = "Linear Regression between " +
@@ -222,7 +222,7 @@ angular.module('datasite')
             var clusteredData = JSON.parse(JSON.stringify(specinfo.spec.data));
             if (specinfo.algorithm != 'Clustering' && specinfo.algorithm !=
             'Regression' && specinfo.algorithm != 'PolynomialRegression' && specinfo.algorithm
-                != 'DBSCAN') {
+                != 'DBSCAN Clustering') {
                 var data = {
                     formatType: undefined,
                     url: Dataset.currentDataset.url,
