@@ -118,7 +118,7 @@ textarea {
 
 .top-card {
   //background-color: #FCFDFE;
-  background-color: #f6fff6;
+  //background-color: #f6fff6;
 }
 
 .no-right-margin {
@@ -419,7 +419,7 @@ h4 {
   .current-dataset {
     color: white;
   }
-  background-color: #38425D;
+  /* background-color: #38425D; */
 
   #footer {
     a {
@@ -798,6 +798,185 @@ $text-color: #212121;
   }
 }
 
+// ====== components/filter/categoricalfilter.scss ====== 
+.filter-box.categorical-filter-box {
+  padding: 0 8px 0 8px;
+  label {
+    max-width: 70%;
+  }
+  .actions {
+    margin-bottom: 4px;
+  }
+
+  .select-all:hover {
+    color: #006bb3;
+  }
+
+  .selected-status {
+    color: gray;
+  }
+
+  .keep-only {
+    color: #bfbfbf;
+  }
+}
+
+// ====== components/filter/filtershelves.scss ====== 
+.filter-absolute-container {
+  position: absolute;
+  top: 30px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.shelf.filter-shelf {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 150px;
+  background-color: white;
+
+  .field-drop {
+    flex-shrink: 0;
+    border: none;
+  }
+
+  .field-info.selected {
+    border: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
+.filter-box {
+  padding: 0 4px 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+$filter-drop-color: hsla(215,41%,80%,1);
+
+.filter-drop {
+  font-size: 11px;
+  border-radius: 3px;
+  border: 1px dashed $filter-drop-color;
+  color: $filter-drop-color;
+  padding: 0 0.5em;
+  visibility: hidden;
+
+  &.drop-active {
+    visibility: visible;
+    color: $text-color;
+    border: 1px dashed #4CAF50;
+    background-color: #C8E6C9;
+  }
+
+}
+
+// ====== components/filter/quantitativefilter.scss ====== 
+quantitative-filter {
+  .domain-label {
+    padding: 0px 4px;
+    color: gray;
+  }
+
+  // slider general look
+  .ngrs-range-slider {
+    border: none;
+    background: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+  .ngrs-range-slider.ngrs-focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+
+  // slider body
+  .ngrs-range-slider {
+    .ngrs-join {
+      background-color: rgba(31, 119, 180, 0.8);
+      background-image: none;
+    }
+
+    .ngrs-runner {
+      background-color: lightgray;
+      border-radius: 3px;
+      height: 8px;
+      margin: 0px 12px;
+    }
+
+    .ngrs-attached-handles {
+      margin: 0px 12px;
+    }
+  }
+
+  // slider labels
+  .time .ngrs-range-slider {
+    .ngrs-value {
+      display:none;
+    }
+  }
+  .value-label {
+    color: rgba(31, 119, 180, 0.8);
+    font-size: 11px;
+  }
+
+  .ngrs-range-slider {
+    .ngrs-value {
+      color: rgba(31, 119, 180, 0.8);
+      font-size: 11px;
+      text-align: center;
+    }
+  }
+  .ngrs-range-slider.ngrs-handle-min-down,
+  .ngrs-range-slider.ngrs-handle-max-down {
+    .ngrs-value {
+      color: rgba(31, 119, 180, 1);
+    }
+  }
+
+  // slider handles
+  .ngrs-range-slider {
+    .ngrs-handle {
+      background-color: white;
+      height: 18px;
+      width: 10px;
+      margin: -5px 0 0 -5px;
+    }
+    .ngrs-handle i {
+      display: none;
+    }
+  }
+}
+
+// ====== components/functionselect/functionselect.scss ====== 
+label.func-label.field-func {
+  font-weight: normal;
+  width: 130px; // set width to roughly half of .shelf-functions to create double columns
+}
+
+label.func-label.field-func.single-column {
+  width: 260px; // set width slightly smaller than .shelf-functions to create single column
+}
+
+.expand-collapse {
+  text-align: center;
+  margin-bottom: -5px;
+}
+
+.function-select.wildcard {
+  padding: 5px;
+  background-color: #d8eaec;
+  border-radius: 3px;
+
+  // HACK to take over the outer background
+  margin: -5px;
+  padding: 5px;
+}
 // ====== components/fieldinfo/fieldinfo.scss ====== 
 $any-color: #bbb;
 $any-hover-color: #666;
@@ -1061,223 +1240,6 @@ $any-hover-color: #666;
   }
 }
 
-// ====== components/filter/categoricalfilter.scss ====== 
-.filter-box.categorical-filter-box {
-  padding: 0 8px 0 8px;
-  label {
-    max-width: 70%;
-  }
-  .actions {
-    margin-bottom: 4px;
-  }
-
-  .select-all:hover {
-    color: #006bb3;
-  }
-
-  .selected-status {
-    color: gray;
-  }
-
-  .keep-only {
-    color: #bfbfbf;
-  }
-}
-
-// ====== components/filter/filtershelves.scss ====== 
-.filter-absolute-container {
-  position: absolute;
-  top: 30px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.shelf.filter-shelf {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  max-height: 150px;
-  background-color: white;
-
-  .field-drop {
-    flex-shrink: 0;
-    border: none;
-  }
-
-  .field-info.selected {
-    border: none;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-}
-
-.filter-box {
-  padding: 0 4px 4px;
-  display: flex;
-  flex-direction: column;
-}
-
-$filter-drop-color: hsla(215,41%,80%,1);
-
-.filter-drop {
-  font-size: 11px;
-  border-radius: 3px;
-  border: 1px dashed $filter-drop-color;
-  color: $filter-drop-color;
-  padding: 0 0.5em;
-  visibility: hidden;
-
-  &.drop-active {
-    visibility: visible;
-    color: $text-color;
-    border: 1px dashed #4CAF50;
-    background-color: #C8E6C9;
-  }
-
-}
-
-// ====== components/filter/quantitativefilter.scss ====== 
-quantitative-filter {
-  .domain-label {
-    padding: 0px 4px;
-    color: gray;
-  }
-
-  // slider general look
-  .ngrs-range-slider {
-    border: none;
-    background: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    margin-top: 0px;
-    margin-bottom: 20px;
-  }
-  .ngrs-range-slider.ngrs-focus {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-  }
-
-  // slider body
-  .ngrs-range-slider {
-    .ngrs-join {
-      background-color: rgba(31, 119, 180, 0.8);
-      background-image: none;
-    }
-
-    .ngrs-runner {
-      background-color: lightgray;
-      border-radius: 3px;
-      height: 8px;
-      margin: 0px 12px;
-    }
-
-    .ngrs-attached-handles {
-      margin: 0px 12px;
-    }
-  }
-
-  // slider labels
-  .time .ngrs-range-slider {
-    .ngrs-value {
-      display:none;
-    }
-  }
-  .value-label {
-    color: rgba(31, 119, 180, 0.8);
-    font-size: 11px;
-  }
-
-  .ngrs-range-slider {
-    .ngrs-value {
-      color: rgba(31, 119, 180, 0.8);
-      font-size: 11px;
-      text-align: center;
-    }
-  }
-  .ngrs-range-slider.ngrs-handle-min-down,
-  .ngrs-range-slider.ngrs-handle-max-down {
-    .ngrs-value {
-      color: rgba(31, 119, 180, 1);
-    }
-  }
-
-  // slider handles
-  .ngrs-range-slider {
-    .ngrs-handle {
-      background-color: white;
-      height: 18px;
-      width: 10px;
-      margin: -5px 0 0 -5px;
-    }
-    .ngrs-handle i {
-      display: none;
-    }
-  }
-}
-
-// ====== components/functionselect/functionselect.scss ====== 
-label.func-label.field-func {
-  font-weight: normal;
-  width: 130px; // set width to roughly half of .shelf-functions to create double columns
-}
-
-label.func-label.field-func.single-column {
-  width: 260px; // set width slightly smaller than .shelf-functions to create single column
-}
-
-.expand-collapse {
-  text-align: center;
-  margin-bottom: -5px;
-}
-
-.function-select.wildcard {
-  padding: 5px;
-  background-color: #d8eaec;
-  border-radius: 3px;
-
-  // HACK to take over the outer background
-  margin: -5px;
-  padding: 5px;
-}
-// ====== components/shelves/shelves.scss ====== 
-.shelf-pane {
-  margin-bottom: 12px;
-}
-
-.shelf-encoding-pane {
-  margin-bottom: 18px;
-}
-
-.preview .shelf-encoding-pane,
-.preview .shelf-any-pane {
-  margin-bottom: 0;
-}
-
-.shelf-filter-pane {
-  flex-grow: 1;
-  position: relative;
-}
-
-.card.shelves.preview {
-  bottom: initial;
-  padding-bottom: 0;
-}
-
-select.markselect {
-  // customizing css for select box http://cssdeck.com/labs/styling-select-box-with-css3
-  background: #f8f8f8;
-  color:#333;
-  border: #888888 1px solid;
-  display: inline-block;
-  &.auto {
-    background: #e3f9fd;
-    color: #5798a5;
-    border: #9bc4cc 1px solid;
-  }
-}
-// ====== components/propertyeditor/propertyeditor.scss ====== 
-
 // ====== components/schemalist/schemalist.scss ====== 
 .schema {
   margin-bottom: 10px;
@@ -1326,6 +1288,44 @@ label {
 .remove-action {
   color: #b30a0a;
 }
+// ====== components/shelves/shelves.scss ====== 
+.shelf-pane {
+  margin-bottom: 12px;
+}
+
+.shelf-encoding-pane {
+  margin-bottom: 18px;
+}
+
+.preview .shelf-encoding-pane,
+.preview .shelf-any-pane {
+  margin-bottom: 0;
+}
+
+.shelf-filter-pane {
+  flex-grow: 1;
+  position: relative;
+}
+
+.card.shelves.preview {
+  bottom: initial;
+  padding-bottom: 0;
+}
+
+select.markselect {
+  // customizing css for select box http://cssdeck.com/labs/styling-select-box-with-css3
+  background: #f8f8f8;
+  color:#333;
+  border: #888888 1px solid;
+  display: inline-block;
+  &.auto {
+    background: #e3f9fd;
+    color: #5798a5;
+    border: #9bc4cc 1px solid;
+  }
+}
+// ====== components/propertyeditor/propertyeditor.scss ====== 
+
 // ====== components/tabs/tab.scss ====== 
 .tab-container {
   .tab {

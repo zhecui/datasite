@@ -46,7 +46,9 @@ angular.module('datasite', [
     'angular-google-analytics',
 
     //modified by Zhe
-    'infinite-scroll'])
+    'infinite-scroll',
+    'ngMdIcons',
+    'ngMaterial'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -84,6 +86,9 @@ angular.module('datasite', [
   })
   // added by Zhe
   .config(function($httpProvider) {
-  $httpProvider.defaults.useXDomain = true;
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+      $httpProvider.defaults.useXDomain = true;
+      delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  })
+  .config(function($mdIconProvider) {
+    $mdIconProvider.defaultIconSet('assets/mdi.svg');
 });

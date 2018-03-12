@@ -7,6 +7,8 @@ angular.module('datasite')
             return {
                 type: '',
                 title: '',
+                description: '',
+                chartType: '',
                 value: null,
                 attributes: [],
                 // specs: [],
@@ -145,7 +147,7 @@ angular.module('datasite')
                                 }, function (error) {
                                     promiseError(error);
                                 });
-                            }
+                        }
                     }
                 }
             });
@@ -155,55 +157,99 @@ angular.module('datasite')
             var algorithm = specinfo.algorithm,
                 results = specinfo.result,
                 attribute = specinfo.attribute;
+            var title = null;
             var sentence = null;
             if (algorithm === "Correlation") {
                 // two attributes relationship scripts
+                title = "\u03C1 = " + ((typeof results) == 'number' ? results.toFixed(2) :
+                        results) + " for " + attribute[0].split('_').join(' ') +
+                    " and " + attribute[1].split('_').join(' ');
                 sentence = algorithm + " of " +
                     ((typeof results) == 'number' ? results.toFixed(2) :
                         results) + " was found between Attribute " + attribute[0].split('_').join(' ')
                     + ", " + attribute[1].split('_').join(' ') + ".";
             } else if (algorithm === "Most Freq. Combinations") {
+                title = attribute[0].split('_').join(' ') +
+                    " and " + attribute[1].split('_').join(' ');
                 sentence = algorithm + " found between " + attribute[0].split('_').join(' ')
                     + " " + results[0] + ", and " + attribute[1].split('_').join(' ')
                     + " " + results[1];
             } else if (algorithm === "meanvar") {
                 // mean and variance scripts
+                title = "Mean = " + results[0].toFixed(2) + ", std = " +
+                    Math.sqrt(results[1]).toFixed(2) + " for "
+                    + attribute.split('_').join(' ');
                 sentence = "Mean " + results[0].toFixed(2)
                     + " found in Attribute " + attribute.split('_').join(' ')
                     + " with standard deviation of " + Math.sqrt(results[1]).toFixed(2);
             } else if (algorithm === "Range") {
                 // other scripts
+                title = "Range = (" + results[0] + ", " + results[1]
+                    + ") for " + attribute.split('_').join(' ');
                 sentence = "Attribute " + attribute.split('_').join(' ') +
                     " has Range (" + results[0] + ", " + results[1]
                     + ").";
             } else if (algorithm === "Clustering") {
                 // two attributes relationship scripts
+                title = "Clusters = " + results.numOfClusters + ", error = " +
+                    Math.sqrt(results.error).toFixed(2) + " for " +
+                    attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ');
                 sentence = "K-means with " + results.numOfClusters + " clusters between " +
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " has average error "
                     + Math.sqrt(results.error).toFixed(2) + ".";
             } else if (algorithm === "DBSCAN Clustering") {
                 // two attributes relationship scripts
+                title = "Clusters = " + results.numOfClusters + ", minPts = " +
+                    results.minPts + " for " +
+                    attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ');
                 sentence = "DBSCAN between " + attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " with minPts=" + results.minPts +
                     " estimated " + results.numOfClusters + " clusters.";
             } else if (algorithm === "Regression") {
                 // two attributes relationship scripts
+                title = attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ');
                 sentence = "Linear Regression between " +
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " is" +
                     " finished.";
             } else if (algorithm === "PolynomialRegression") {
                 // two attributes relationship scripts
+                title = attribute[0].split('_').join(' ') + " and " +
+                    attribute[1].split('_').join(' ');
                 sentence = "Polynomial Regression between " +
                     attribute[0].split('_').join(' ') + " and " +
                     attribute[1].split('_').join(' ') + " is" +
                     " finished.";
             } else {
+                title = results + " for " + attribute.split('_').join(' ');
                 sentence = algorithm + " for Attribute " + attribute.split('_').join(' ') +
                     " is " + results + ".";
             }
-            return sentence;
+            return [title, sentence];
+        }
+
+        function getIcon(chartType) {
+            var iconType = null;
+            if (chartType == "Most Freq. Combinations" ||
+                chartType == "Most Freq. Subcategory" ||
+                chartType == "Least Freq. Subcategory") {
+                iconType = "chart-bar";
+            } else if (chartType == "meanvar" ||
+                chartType == "Range") {
+                iconType = "chart-histogram";
+            } else if (chartType == "Clustering" ||
+                chartType == "DBSCAN Clustering") {
+                iconType = "chart-scatterplot-hexbin";
+            } else if (chartType == "Regression" ||
+                chartType == "PolynomialRegression" ||
+                chartType == "Correlation") {
+                iconType = "chart-line";
+            }
+            return iconType;
         }
 
         Feed.update = function (specinfo) {
@@ -212,16 +258,19 @@ angular.module('datasite')
             component.type = specinfo.algorithm;
             component.value = getRankValue(specinfo);
             // 'value' property is used for ranking in the feed.
-            if(specinfo.attribute instanceof Array) {
+            if (specinfo.attribute instanceof Array) {
                 component.attributes = component.attributes.concat(
                     specinfo.attribute);
             } else {
                 component.attributes.push(specinfo.attribute);
             }
-            component.title = scriptFormat(specinfo);
+            var textualContent = scriptFormat(specinfo);
+            component.title = textualContent[0];
+            component.description = textualContent[1];
+            component.chartType = getIcon(specinfo.algorithm);
             var clusteredData = JSON.parse(JSON.stringify(specinfo.spec.data));
             if (specinfo.algorithm != 'Clustering' && specinfo.algorithm !=
-            'Regression' && specinfo.algorithm != 'PolynomialRegression' && specinfo.algorithm
+                'Regression' && specinfo.algorithm != 'PolynomialRegression' && specinfo.algorithm
                 != 'DBSCAN Clustering') {
                 var data = {
                     formatType: undefined,
@@ -263,25 +312,25 @@ angular.module('datasite')
             Feed.components[component.type].unshift(component);
         };
 
-        Feed.filter = function(encodings) {
+        Feed.filter = function (encodings) {
             var selectedEncodings = [];
-            Object.keys(encodings).forEach(function(curr) {
-                if(encodings[curr]!= undefined && encodings[curr].field != undefined) {
+            Object.keys(encodings).forEach(function (curr) {
+                if (encodings[curr] != undefined && encodings[curr].field != undefined) {
                     selectedEncodings.push(encodings[curr].field);
                 }
             });
 
             var components = Feed.components;
-            if(selectedEncodings.length > 0) {
+            if (selectedEncodings.length > 0) {
                 for (var type in components) {
                     var currTypeOrder = 0;
                     var componentsByType = components[type];
-                    for(var index = 0; index < componentsByType.length; index++ ) {
-                        componentsByType[index].attributes.forEach(function(attribute) {
-                            if(selectedEncodings.includes(attribute)) {
+                    for (var index = 0; index < componentsByType.length; index++) {
+                        componentsByType[index].attributes.forEach(function (attribute) {
+                            if (selectedEncodings.includes(attribute)) {
                                 Feed.components[type][index].order = 1;
-                                for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
-                                    if(Feed.typeOrder[ind].type == type) {
+                                for (var ind = 0; ind < Feed.typeOrder.length; ind++) {
+                                    if (Feed.typeOrder[ind].type == type) {
                                         Feed.typeOrder[ind].order = 1;
                                     }
                                 }
@@ -292,19 +341,19 @@ angular.module('datasite')
                     }
                 }
             } else {
-                for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
+                for (var ind = 0; ind < Feed.typeOrder.length; ind++) {
                     // if(Feed.typeOrder[ind].type == type) {
                     Feed.typeOrder[ind].order = 0;
                     // }
                 }
                 for (var type in components) {
-                    for(var ind = 0; ind < Feed.typeOrder.length; ind++ ) {
-                        if(Feed.typeOrder[ind].type == type) {
+                    for (var ind = 0; ind < Feed.typeOrder.length; ind++) {
+                        if (Feed.typeOrder[ind].type == type) {
                             Feed.typeOrder[ind].order = 0;
                         }
                     }
                     var componentsByType = components[type];
-                    for(var index = 0; index < componentsByType.length; index++ ) {
+                    for (var index = 0; index < componentsByType.length; index++) {
                         Feed.components[type][index].order = 0;
                     }
                 }
@@ -445,7 +494,7 @@ angular.module('datasite')
         }
 
         function getRankValue(spec) {
-            switch(spec.algorithm) {
+            switch (spec.algorithm) {
                 case 'meanvar':
                     // based on variance, larger variance gets higher ranking
                     return -spec.result[1];
