@@ -138,7 +138,7 @@
                 </h2>
                 <h3>Select filter!
                     <select id="selected" ng-model="component"
-                            ng-change="$parent.setAlternativeType(component.type);">
+                            ng-change="$parent.setAlternativeType(component);">
                         <option ng-repeat="component in Feed.typeOrder"
                                 ng-click="$parent.setAlternativeType(component.type);"
                                 md-parent-scope="this"
